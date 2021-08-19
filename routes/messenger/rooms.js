@@ -9,7 +9,6 @@ const User = require("../../models/User");
 router.post('/', async (req, res, next) => {
 
     try{
-        //eventually test if valid user Id isValidObjectId
         const senderId = req.body.senderId
         const receiverId = req.body.receiverId
 

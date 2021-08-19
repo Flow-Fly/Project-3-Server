@@ -15,10 +15,10 @@ router.post('/', async (req, res, next) => {
 })
 
 //retreive all the message of a conversation
-router.get("/:conversationId", async (req, res, next) => {
-    const id = req.params.conversationId
+router.get("/:roomId", async (req, res, next) => {
+    const id = req.params.roomId
     try{
-        const messages = await Message.findById(id)
+        const messages = await Message.find({room: id})
         res.status(200).json(messages)
 
     }
