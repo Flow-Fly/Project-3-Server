@@ -11,10 +11,7 @@ const newJobs = [
     technologies: ['Javascript', 'HTML', 'CSS', 'React', 'Redux'],
     location: 'Paris',
     remote: true,
-    creator: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
-    },
+    creator: 'the id of the user',
     link: 'https://www.datadoghq.com/careers/',
     constractType: ['CDI'],
     level: ['experienced'],
@@ -27,10 +24,7 @@ const newJobs = [
     technologies: ['Figma', 'Miro', 'Mural'],
     location: 'Lyon',
     remote: true,
-    creator: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
-    },
+    creator: 'the id of the user',
     link: 'https://carrieres.groupegalerieslafayette.com/',
     contractType: ['CDD'],
     level: ['junior'],
@@ -45,10 +39,7 @@ const newJobs = [
     technologies: ['reporting system', 'python'],
     location: 'Nice',
     remote: false,
-    creator: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
-    },
+    creator: 'the id of the user',
     link: 'https://www.linkedin.com/jobs/search/?geoId=105015875&keywords=Data%20Analyse&location=France',
     contractType: ['Part-time'],
     level: ['senior'],
@@ -62,10 +53,7 @@ const newJobs = [
     technologies: ['JS', 'TS', 'NodeJS', 'MongoDB'],
     location: 'Paris',
     remote: true,
-    creator: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
-    },
+    creator: 'the id of the user',
     link: 'https://www.linkedin.com/jobs/search/?currentJobId=2661285082&geoId=105015875&keywords=Cyber%20Security%20Engineer&location=France',
     contractType: ['CDI'],
     level: ['expert'],
@@ -77,23 +65,45 @@ const newJobs = [
 
 async function seedJob() {
   try {
-    await mongoose.connect(process.env.MONGODB_URI, {
-      useNewUrlParser: true,
-      useCreateIndex: true,
-      useUnifiedTopology: true,
+    await Job.collection
+      .drop()
+      .catch((error) => console.log('No collection to drop, proceeding...'));
+    console.log('Job collection dropped');
+
+    const usersInDB = await User.find();
+
+    jobs.forEach((job) => {
+      const randomUserIndex = Math.floor(
+        Math.random() * (usersInDB.length - 1 - 0 + 1) + 0
+      );
+      job.creator = usersInDB[randomUserIndex]._id;
     });
 
-    let jobs = await Job.deleteMany();
-    console.log(`Deleted ${jobs.length} Jobs`);
-
-    jobs = await Job.create(newJobs);
-    console.log('Jobs created: ', jobs);
-    mongoose.connection.close();
-    console.log('DB connection closed.');
+    const createdJobs = await Job.create(jobs);
+    console.log(`Created: ${createdJobs.length} jobs`);
+    process.exit();
   } catch (error) {
     console.log(error);
-    // process.exit();
+    process.exit();
   }
+
+  //   await mongoose.connect(process.env.MONGODB_URI, {
+  //     useNewUrlParser: true,
+  //     useCreateIndex: true,
+  //     useUnifiedTopology: true,
+  //   });
+
+  //   let jobs = await Job.deleteMany();
+  //   console.log(`Deleted ${jobs.length} Jobs`);
+
+  //   jobs = await Job.create(newJobs);
+  //   console.log('Jobs created: ', jobs);
+  //   mongoose.connection.close();
+  //   console.log('DB connection closed.');
+  // } catch (error) {
+  //   console.log(error);
+  //   // process.exit();
+  // }
 }
 
 seedJob();
