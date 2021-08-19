@@ -46,6 +46,8 @@ app.use(
 
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/users", require("./routes/users"));
+app.use("/api/rooms", require("./routes/messenger/rooms"))
+app.use("/api/messages", require('./routes/messenger/messages'))
 
 // 404 Middleware
 app.use((req, res, next) => {
