@@ -23,8 +23,8 @@ const jobSchema = new Schema(
     },
     link: String,
     contractType: {
-        type: String,
-        enum: ['CDD', 'CDI', 'Part-time']
+      type: String,
+      enum: ['CDD', 'CDI', 'Part-time', 'Freelance', 'Internship'],
     },
     level: {
       type: String,
@@ -41,7 +41,7 @@ const jobSchema = new Schema(
     //     createdAt: "posted_at",
     //     updatedAt: "updated_at"
     // }
-    timestamps: true
+    timestamps: true,
   }
 );
 

@@ -1,27 +1,38 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
   email: { type: String, required: true },
   profileImg: {
     type: String,
-    default: "https://cdn.dribbble.com/users/60266/screenshots/4544827/stickermule_major_league_hacker.jpg"
+    default:
+      'https://cdn.dribbble.com/users/60266/screenshots/4544827/stickermule_major_league_hacker.jpg',
   },
   password: { type: String, required: true },
   lastName: String,
   firstName: String,
   phoneNumber: String,
-  graduationYear : Number, 
+  graduationYear: Number,
   location: {
     type: String,
-    enum: ["Paris", "Madrid"]
+    enum: [
+      'Paris',
+      'Madrid',
+      'Amsterdam',
+      'Barcelona',
+      'Berlin',
+      'Miami',
+      'Sao Paulo',
+      'Lisbon',
+      'Mexico City',
+    ],
   },
-  type : {
+  type: {
     type: String,
-    enum: ["Web Dev", "UI/UX", "Data Analyst", "Cyber Security"]
-  }
+    enum: ['Web Dev', 'UI/UX', 'Data Analyst', 'Cyber Security'],
+  },
 });
 
-const User = mongoose.model("User", userSchema);
+const User = mongoose.model('User', userSchema);
 
 module.exports = User;
