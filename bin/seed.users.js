@@ -48,7 +48,7 @@ const newUsers = [
       firstName:'jobs',
       phoneNumber:'0222222222',
       graduationYear: '2000',
-      location: 'MAdrid',
+      location: 'Madrid',
       type: 'Cyber Security'
   },
   
