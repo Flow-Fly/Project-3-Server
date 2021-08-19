@@ -8,6 +8,11 @@ const userSchema = new Schema({
   lastName: String,
   firstName: String,
   phoneNumber: String,
+  cohort : String,
+  type : {
+    type: String,
+    enum: ["Web Dev", "UI/UX", "Data Analyse", "Cyber Security"]
+  }
 });
 
 const User = mongoose.model("User", userSchema);
