@@ -3,7 +3,10 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
   email: { type: String, required: true },
-  profileImg: String,
+  profileImg: {
+    type: String,
+    default: "https://cdn.dribbble.com/users/60266/screenshots/4544827/stickermule_major_league_hacker.jpg"
+  },
   password: { type: String, required: true },
   lastName: String,
   firstName: String,
