@@ -18,7 +18,7 @@ const jobSchema = new Schema(
     location: String,
     remote: Boolean,
     creator: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: 'User',
     },
     link: String,
