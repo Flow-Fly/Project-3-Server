@@ -18,7 +18,7 @@ const userSchema = new Schema({
   },
   type : {
     type: String,
-    enum: ["Web Dev", "UI/UX", "Data Analyse", "Cyber Security"]
+    enum: ["Web Dev", "UI/UX", "Data Analyst", "Cyber Security"]
   }
 });
 
