@@ -5,8 +5,7 @@ const roomSchema = new Schema(
     {
         members: [{
             type: Schema.Types.ObjectId,
-            ref: 'User',
-            required: true
+            ref: 'User'
         }]
     },
     {timestamps: true}
