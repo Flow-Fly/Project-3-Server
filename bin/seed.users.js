@@ -1,7 +1,7 @@
 require('dotenv/config');
 const mongoose = require('mongoose');
 const User = require('../models/User');
-import bcrypt from 'bcrypt'
+const bcrypt = require('bcryptjs')
 
 const password = '1234'
 const safePass = bcrypt.hashSync(password)
