@@ -8,7 +8,11 @@ const userSchema = new Schema({
   lastName: String,
   firstName: String,
   phoneNumber: String,
-  cohort : String,
+  graduationYear : Number, 
+  location: {
+    type: String,
+    enum: ["Paris", "Madrid"]
+  },
   type : {
     type: String,
     enum: ["Web Dev", "UI/UX", "Data Analyse", "Cyber Security"]
