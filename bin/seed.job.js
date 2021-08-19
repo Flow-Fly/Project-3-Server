@@ -1,8 +1,9 @@
 const path = require('path');
 require('dotenv').config({ path: path.join(__dirname, '../.env') });
 require('../config/dbConnection');
-const mongoose = require('mongoose');
+// const mongoose = require('mongoose');
 const Job = require('../models/Job');
+const User = require('../models/User');
 
 const newJobs = [
   {
@@ -13,10 +14,10 @@ const newJobs = [
     remote: true,
     creator: 'the id of the user',
     link: 'https://www.datadoghq.com/careers/',
-    constractType: ['CDI'],
-    level: ['experienced'],
+    constractType: 'CDI',
+    level: 'experienced',
     company: 'Datadog',
-    type: ['Web Dev'],
+    type: 'Web Dev',
   },
   {
     title: 'UI/UX Designer - H/F',
@@ -26,10 +27,10 @@ const newJobs = [
     remote: true,
     creator: 'the id of the user',
     link: 'https://carrieres.groupegalerieslafayette.com/',
-    contractType: ['CDD'],
-    level: ['junior'],
+    contractType: 'CDD',
+    level: 'junior',
     company: 'Galeries Lafayette',
-    type: ['UI/UX'],
+    type: 'UI/UX',
   },
   {
     title: `Chargé(e) d'Etudes Data Analyse - H/F`,
@@ -41,11 +42,11 @@ const newJobs = [
     remote: false,
     creator: 'the id of the user',
     link: 'https://www.linkedin.com/jobs/search/?geoId=105015875&keywords=Data%20Analyse&location=France',
-    contractType: ['Part-time'],
-    level: ['senior'],
+    contractType: 'Part-time',
+    level: 'senior',
     company: 'Data Bubble',
     postDate: '2021-08-18',
-    type: ['Data Analyse'],
+    type: 'Data Analyse',
   },
   {
     title: `cybersecurity Engineer - H/F`,
@@ -55,11 +56,11 @@ const newJobs = [
     remote: true,
     creator: 'the id of the user',
     link: 'https://www.linkedin.com/jobs/search/?currentJobId=2661285082&geoId=105015875&keywords=Cyber%20Security%20Engineer&location=France',
-    contractType: ['CDI'],
-    level: ['expert'],
+    contractType: 'CDI',
+    level: 'expert',
     company: 'PayFit',
     postDate: '2021-07-22',
-    type: ['Cyber Security'],
+    type: 'Cyber Security',
   },
 ];
 
@@ -72,14 +73,14 @@ async function seedJob() {
 
     const usersInDB = await User.find();
 
-    jobs.forEach((job) => {
+    newJobs.forEach((job) => {
       const randomUserIndex = Math.floor(
         Math.random() * (usersInDB.length - 1 - 0 + 1) + 0
       );
       job.creator = usersInDB[randomUserIndex]._id;
     });
 
-    const createdJobs = await Job.create(jobs);
+    const createdJobs = await Job.create(newJobs);
     console.log(`Created: ${createdJobs.length} jobs`);
     process.exit();
   } catch (error) {
