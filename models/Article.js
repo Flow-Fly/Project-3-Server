@@ -6,10 +6,14 @@ const articleSchema = new Schema({
     content: String,
     type : {
         type: String,
-        enum: ["Web Dev", "UI/UX", "Data Analyst", "Cyber Security"]
+        enum: ["Web Dev", "UI/UX", "Data Analyst", "Cyber Security", "All"]
     },
     link: String,
-    image: String
+    image: String,
+    creator: {
+        type: Schema.Types.ObjectId,
+        ref: "User" 
+    }
     
 });
 
