@@ -57,6 +57,7 @@ app.use('/api/users', require('./routes/users'));
 app.use('/api/rooms', require('./routes/messenger/rooms'));
 app.use('/api/messages', require('./routes/messenger/messages'));
 app.use('/jobs', require('./routes/jobs'));
+app.use('/posts', require('./routes/post'));
 
 // 404 Middleware
 app.use((req, res, next) => {
