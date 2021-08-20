@@ -71,10 +71,10 @@ router.post('/', async (req, res, next) => {
 // 204 : Successful
 // 500 : error
 // requireAuth
-router.delete('/:id', validateId('jobId'), async (req, res, next) => {
+router.delete('/:jobId', validateId('jobId'), async (req, res, next) => {
   try {
     // console.log(req.session);
-    const foundJob = await Job.findById(req.params.id);
+    const foundJob = await Job.findById(req.params.jobId);
 
     //check if job exists
     if (!foundJob) {
@@ -89,7 +89,7 @@ router.delete('/:id', validateId('jobId'), async (req, res, next) => {
     // }
 
     //delete
-    await Job.findByIdAndDelete(req.params.id);
+    await Job.findByIdAndDelete(req.params.jobId);
 
     res.status(204).json({ message: 'Successfully deleted.' });
   } catch (error) {
@@ -105,9 +105,9 @@ router.delete('/:id', validateId('jobId'), async (req, res, next) => {
 // 200 : Responds with the updated document
 // 500 : error
 // requireAuth
-router.patch('/:id', validateId('jobId'), async (req, res, next) => {
+router.patch('/:jobId', validateId('jobId'), async (req, res, next) => {
   try {
-    const foundJob = await Job.findById(req.params.id);
+    const foundJob = await Job.findById(req.params.jobId);
 
     //check if job exists
     if (!foundJob) {
@@ -120,7 +120,7 @@ router.patch('/:id', validateId('jobId'), async (req, res, next) => {
     // }
 
     //update
-    const dbRes = await Job.findByIdAndUpdate(req.params.id, req.body, {
+    const dbRes = await Job.findByIdAndUpdate(req.params.jobIsd, req.body, {
       new: true,
     }).populate('creator');
 
