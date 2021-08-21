@@ -1,6 +1,29 @@
 require('dotenv').config();
 require('./config/dbConnection');
 
+
+/*******************************************/
+/*************** SOCKET IO *****************/
+/*******************************************/
+
+const io = require("socket.io")(process.env.SOCKET_PORT, {
+  cors: {
+    origin: process.env.FRONTEND_URL,
+  },
+});
+
+const socketHandler = require('./socket/socketHandler')
+
+const onConnection = socket => {
+  socketHandler(io, socket)
+}
+
+io.on("connection", onConnection);
+
+/*******************************************/
+/***************** EXPRESS *****************/
+/*******************************************/
+
 const express = require('express');
 const path = require('path');
 const logger = require('morgan');
@@ -44,10 +67,10 @@ app.use(
  * Routes
  */
 
-// app.use('/api/auth', require('./routes/auth'));
-// app.use('/api/users', require('./routes/users'));
-// app.use('/api/rooms', require('./routes/messenger/rooms'));
-// app.use('/api/messages', require('./routes/messenger/messages'));
+app.use('/api/auth', require('./routes/auth'));
+app.use('/api/users', require('./routes/users'));
+app.use('/api/rooms', require('./routes/messenger/rooms'));
+app.use('/api/messages', require('./routes/messenger/messages'));
 app.use('/jobs', require('./routes/jobs'));
 
 // 404 Middleware

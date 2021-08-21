@@ -39,7 +39,7 @@ router.get('/:userId', async (req, res, next) => {
     try{
         const rooms = await Room.find({
             members: {$in : [id]}
-        }).populate('members')
+        }).populate('members', '-password')
         
         res.status(200).json(rooms)
     }

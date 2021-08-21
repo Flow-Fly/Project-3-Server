@@ -18,7 +18,7 @@ router.post('/', async (req, res, next) => {
 router.get("/:roomId", async (req, res, next) => {
     const id = req.params.roomId
     try{
-        const messages = await Message.find({room: id})
+        const messages = await Message.find({room: id}).populate('sender', '-password')
         res.status(200).json(messages)
 
     }
