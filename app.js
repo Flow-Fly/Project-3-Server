@@ -33,7 +33,7 @@ const passport = require('passport')
 const cors = require('cors');
 const cookieParser = require('cookie-parser')
 require('./config/passport/localPassportConfig')()
-require('./config/passport/googlePassportConfig')()
+//require('./config/passport/googlePassportConfig')()
 const app = express();
 /**
  * Middlewares
