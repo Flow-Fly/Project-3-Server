@@ -29,9 +29,11 @@ const path = require('path');
 const logger = require('morgan');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
-
+const passport = require('passport')
 const cors = require('cors');
-
+const cookieParser = require('cookie-parser')
+require('./config/passport/localPassportConfig')()
+require('./config/passport/googlePassportConfig')()
 const app = express();
 /**
  * Middlewares
@@ -42,7 +44,10 @@ app.use(cors(corsOptions));
 app.use(logger('dev')); // This logs HTTP reponses in the console.
 app.use(express.json()); // Access data sent as json @req.body
 app.use(express.urlencoded({ extended: false })); // Access data sent as application/x-www-form-urlencoded @req.body
-
+// TESTING
+app.use(cookieParser())
+				   
+// ENDTESTING
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(
@@ -56,6 +61,9 @@ app.use(
     saveUninitialized: true,
   })
 );
+app.use(passport.initialize())
+app.use(passport.session())
+
 
 // // Test to see if user is logged In before getting into any router.
 // app.use(function (req, res, next) {
@@ -72,6 +80,7 @@ app.use('/api/users', require('./routes/users'));
 app.use('/api/rooms', require('./routes/messenger/rooms'));
 app.use('/api/messages', require('./routes/messenger/messages'));
 app.use('/jobs', require('./routes/jobs'));
+app.use('/posts', require('./routes/post'));
 
 // 404 Middleware
 app.use((req, res, next) => {
