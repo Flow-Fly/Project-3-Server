@@ -120,7 +120,7 @@ router.patch('/:jobId', validateId('jobId'), async (req, res, next) => {
     // }
 
     //update
-    const dbRes = await Job.findByIdAndUpdate(req.params.jobIsd, req.body, {
+    const dbRes = await Job.findByIdAndUpdate(req.params.jobId, req.body, {
       new: true,
     }).populate('creator');
 
