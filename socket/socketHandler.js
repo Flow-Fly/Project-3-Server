@@ -57,7 +57,7 @@ socket.on("addUser", addUserOrder);
           const room = await Room.findById(roomId)
 
           const notifications = [...room.notifications].push(receiverId)
-console.log('NOTIFICATIONNNNNNNNNS',room, [...room.notifications], receiverId)
+console.log('NOTIFICATIONNNNNNNNNS', room, [...room.notifications], receiverId)
           const roomUpdated = await Room.findByIdAndUpdate(roomId, {
               notifications
           }, {new: true})
