@@ -15,9 +15,8 @@ router.post('/', requireAuth, async (req, res, next) => {
 
             //Test if the room linking the 2 users already exits
             const roomExists = await Room.find({$and: [{members: senderId}, {members: receiverId}]})
-            console.log('ROOOOOMS', roomExists)
+
             if(roomExists.length){
-                console.log('TRRRRUUUUEEE')
                 return res.status(200).json({
                     message : 'The room already exists',
                     room: roomExists
@@ -51,7 +50,7 @@ router.get('/:userId', requireAuth, async (req, res, next) => {
         const rooms = await Room.find({
             members: {$in : [id]}
         }).populate('members', '-password')
-        console.log(rooms)
+
         res.status(200).json(rooms)
     }
     catch(err){
@@ -59,3 +58,46 @@ router.get('/:userId', requireAuth, async (req, res, next) => {
     }
 })
 module.exports = router;
+
+
+//Add notifications
+router.patch('/notifications/add', requireAuth, async (req, res, next) => {
+    const roomId = req.body.roomId
+    const receiverId = req.body.receiverId
+
+    try{
+        const room = await Room.findById(roomId)
+
+        const notifications = room.notifications.push(receiverId)
+
+        const roomUpdated = await Room.findByIdAndUpdate(roomId, {
+            notifications
+        }, {new: true})
+
+        res.status(200).json(roomUpdated)
+    }
+    catch(err){
+        next(err)
+    }
+})
+
+//Delete notifications
+router.patch('/notifications/detele', requireAuth, async (req, res, next) => {
+    const roomId = req.body.roomId
+    const receiverId = req.body.receiverId
+
+    try{
+        const room = await Room.findById(roomId)
+
+        const notifications = room.notifications.filter(n => n !== receiverId)
+
+        const roomUpdated = await Room.findByIdAndUpdate(roomId, {
+            notifications
+        }, {new: true})
+
+        res.status(200).json(roomUpdated)
+    }
+    catch(err){
+        next(err)
+    }
+})
