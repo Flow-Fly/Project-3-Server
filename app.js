@@ -64,7 +64,6 @@ app.use(
 app.use(passport.initialize())
 app.use(passport.session())
 
-
 // // Test to see if user is logged In before getting into any router.
 // app.use(function (req, res, next) {
 //   console.log("User in session =>", req.session.currentUser);

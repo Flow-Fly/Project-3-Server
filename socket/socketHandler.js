@@ -1,3 +1,6 @@
+
+const Room = require("../models/Room");
+
 /* ---------- Utils functions ------------ */
 
 //SocketId is always changing (on each page refresh)
@@ -29,7 +32,7 @@ const removeUser = (socketId) => {
 //get the socketId associated to an userId in the user array
 const getSocketId = (userId) => {
   const user = users.find((user) => user._id === userId);
-  return user.socket;
+  return (user && user.socket);
 };
 
 /*------------ Socket functions ------------*/
@@ -45,8 +48,24 @@ module.exports = (io, socket) => {
 socket.on("addUser", addUserOrder);
 
     //manage messages flow
-    const sendOrder = ({senderId, senderImg, receiverId, content}) => {
-        io.to(getSocketId(receiverId)).emit("receive", {
+    const sendOrder = async ({roomId, senderId, senderImg, receiverId, content}) => {
+      console.log({roomId, senderId, senderImg, receiverId, content})
+        const receiverSocketId = getSocketId(receiverId)
+
+        if(!receiverSocketId){
+
+          const room = await Room.findById(roomId)
+
+          const notifications = [...room.notifications].push(receiverId)
+console.log('NOTIFICATIONNNNNNNNNS', room, [...room.notifications], receiverId)
+          const roomUpdated = await Room.findByIdAndUpdate(roomId, {
+              notifications
+          }, {new: true})
+
+          return console.log('friend not connected')
+        } 
+
+        io.to(receiverSocketId).emit("receive", {
             senderId,
             content,
             senderImg,

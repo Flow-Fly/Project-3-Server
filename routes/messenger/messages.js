@@ -15,12 +15,19 @@ router.post('/', async (req, res, next) => {
 })
 
 //retreive all the message of a conversation
-router.get("/:roomId", async (req, res, next) => {
+router.post("/:roomId", async (req, res, next) => {
     const id = req.params.roomId
+    const firstMessageIndex = req.body.firstMessageIndex
+    const depth = req.body.depth
     try{
-        const messages = await Message.find({room: id}).populate('sender', '-password')
-        res.status(200).json(messages)
+        const messages = await Message
+            .find({room: id})
+            .sort('-createdAt')
+            .skip(firstMessageIndex)
+            .limit(depth)
+            .populate('sender', '-password')
 
+        res.status(200).json(messages.reverse())
     }
     catch(err){
         next(err)
