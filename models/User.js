@@ -8,7 +8,7 @@ const userSchema = new Schema({
     default:
       'https://cdn.dribbble.com/users/60266/screenshots/4544827/stickermule_major_league_hacker.jpg',
   },
-  password: { type: String, required: true },
+  password: String,
   lastName: String,
   firstName: String,
   phoneNumber: String,
@@ -31,6 +31,8 @@ const userSchema = new Schema({
     type: String,
     enum: ['Web Dev', 'UI/UX', 'Data Analyst', 'Cyber Security'],
   },
+  googleId: String,
+  githubId: String,
 });
 
 const User = mongoose.model('User', userSchema);

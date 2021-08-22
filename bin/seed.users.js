@@ -14,8 +14,8 @@ const newUsers = [
   {
       email:'johndoe@mail.com',
       password: safePass,
-      lastName:'john',
-      firstName:'doe',
+      lastName:'Doe',
+      firstName:'John',
       phoneNumber:'00112233',
       graduationYear: '1912',
       location: 'Paris',
@@ -24,8 +24,8 @@ const newUsers = [
   {
       email:'alicedoe@mail.com',
       password: safePass,
-      lastName:'alice',
-      firstName:'doe',
+      lastName:'Doe',
+      firstName:'Alice',
       phoneNumber:'001122334455',
       graduationYear: '2004',
       location: 'Madrid',
@@ -34,8 +34,8 @@ const newUsers = [
   {
       email:'billgates@mail.com',
       password: safePass,
-      lastName:'bill',
-      firstName:'gates',
+      lastName:'Gates',
+      firstName:'Bill',
       phoneNumber:'0111111111',
       graduationYear: '1969',
       location: 'Paris',
@@ -44,8 +44,8 @@ const newUsers = [
   {
       email:'stevejobs@mail.com',
       password: safePass,
-      lastName:'steve',
-      firstName:'jobs',
+      lastName:'Jobs',
+      firstName:'Steve',
       phoneNumber:'0222222222',
       graduationYear: '2000',
       location: 'Madrid',

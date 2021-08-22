@@ -1,8 +1,8 @@
 const requireAuth = (req, res, next) => {
   if (req.user) {
-    next();
+    return next();
   } else {
-    res.status(401).json({ message: "Unauthorized" });
+    return res.status(401).json({ message: 'Unauthorized' });
   }
 };
 

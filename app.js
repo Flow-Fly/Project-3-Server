@@ -31,9 +31,12 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const passport = require('passport')
 const cors = require('cors');
-const cookieParser = require('cookie-parser')
+
+/*************** PASSPORT *****************/
 require('./config/passport/localPassportConfig')()
-//require('./config/passport/googlePassportConfig')()
+require('./config/passport/googlePassportConfig')()
+require('./config/passport/githubPassportConfig')()
+
 const app = express();
 /**
  * Middlewares
@@ -44,10 +47,7 @@ app.use(cors(corsOptions));
 app.use(logger('dev')); // This logs HTTP reponses in the console.
 app.use(express.json()); // Access data sent as json @req.body
 app.use(express.urlencoded({ extended: false })); // Access data sent as application/x-www-form-urlencoded @req.body
-// TESTING
-app.use(cookieParser())
 				   
-// ENDTESTING
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(
