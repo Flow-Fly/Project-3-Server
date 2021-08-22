@@ -14,7 +14,7 @@ router.post("/signin", (req, res, next) => {
     else {
       req.logIn(user, err => {
         if (err) next(err)
-        res.status(200).json({message: 'Authenticated successfully as',user: req.user})
+        res.status(200).json(req.user)
       })
     }
   }) (req, res, next)
@@ -73,7 +73,7 @@ router.post("/signup", (req, res, next) => {
 
 router.get("/logout", (req, res, next) => {
   req.logout()
-  res.redirect('/')
+  res.sendStatus(204)
 });
 
 // GOOGLE PASSPORT LOGIN
@@ -84,7 +84,7 @@ router.get(
   })
 );
 
-router.get('/google/redirect', passport.authenticate('google'), (req, res) => {
+router.get('/google/callback', passport.authenticate('google'), (req, res) => {
   res.redirect('/')
 });
 

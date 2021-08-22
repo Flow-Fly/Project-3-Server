@@ -13,7 +13,6 @@ module.exports = () => {
       async (email, password, done) => {
         try {
           const user = await User.findOne({ email });
-          console.log(user, email)
           const match = bcrypt.compareSync(password, user.password);
           if (!user || !match) {
             return done(null, false, { message: 'Wrong credentials' });
