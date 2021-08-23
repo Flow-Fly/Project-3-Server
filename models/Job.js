@@ -13,7 +13,6 @@ const jobSchema = new Schema(
     },
     technologies: {
       type: [String],
-      required: true,
     },
     location: String,
     remote: Boolean,
