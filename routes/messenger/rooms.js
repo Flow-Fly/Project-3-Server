@@ -66,10 +66,10 @@ router.patch('/notifications/add', requireAuth, async (req, res, next) => {
     const receiverId = req.body.receiverId
 
     try{
-        const room = await Room.findById(roomId)
+          const foundRoom = await Room.findById(roomId)
 
-        const notifications = room.notifications.push(receiverId)
-
+        const notifications = [...foundRoom.notifications, receiverId]
+        
         const roomUpdated = await Room.findByIdAndUpdate(roomId, {
             notifications
         }, {new: true})
@@ -82,14 +82,16 @@ router.patch('/notifications/add', requireAuth, async (req, res, next) => {
 })
 
 //Delete notifications
-router.patch('/notifications/detele', requireAuth, async (req, res, next) => {
+router.patch('/notifications/delete', requireAuth, async (req, res, next) => {
     const roomId = req.body.roomId
     const receiverId = req.body.receiverId
 
     try{
         const room = await Room.findById(roomId)
 
-        const notifications = room.notifications.filter(n => n !== receiverId)
+        const notifications = room.notifications.filter(n => {
+            n !== receiverId
+        })
 
         const roomUpdated = await Room.findByIdAndUpdate(roomId, {
             notifications

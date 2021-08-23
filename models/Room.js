@@ -7,7 +7,10 @@ const roomSchema = new Schema(
             type: Schema.Types.ObjectId,
             ref: 'User'
         }],
-        notifications : ["String"]
+        notifications : [{
+            type: Schema.Types.ObjectId,
+            ref: 'User'
+        }],
 
     },
     {timestamps: true}

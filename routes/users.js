@@ -16,23 +16,22 @@ router.get("/me", requireAuth, (req, res, next) => {
 //     .catch(next);
 // });
 
-router.get("/:userId", requireAuth, (req, res, next) => {
-  User.findById(req.params.userId).select('-password')
-    .then((user) => {
-      res.status(200).json(user);
-    })
-    .catch(next);
+//get a user from his email 
+router.get("/user", requireAuth, async (req, res, next) => {
+  console.log('REEEEEEEEEQ QUEEEEEEERY', req.query)
+  User.find({email: req.query.email}).select('-password')
+  .then((user) => {
+    res.status(200).json(user);
+  })
+  .catch(next);
 });
 
-
-//Get a user from his email 
-router.get("/user", requireAuth, (req, res, next) => {
-    User.find({email: req.query.email}).select('-password')
-      .then((user) => {
-        res.status(200).json(user);
-      })
-      .catch(next);
-  });
-
+// router.get("/:userId", requireAuth, (req, res, next) => {
+//   User.findById(req.params.userId).select('-password')
+//     .then((user) => {
+//       res.status(200).json(user);
+//     })
+//     .catch(next);
+// });
 
 module.exports = router;
