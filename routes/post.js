@@ -4,6 +4,7 @@ const Article = require('../models/Article');
 const User = require('../models/User');
 const requireAuth=require('../middlewares/requireAuth');
 const validateId = require('../middlewares/validateId')
+const upload = require("../config/cloudinaryConfig")
 
 // /posts      GET	  none	   Returns all posts
 // /posts      POST	JSON	Creates a new posts
@@ -18,7 +19,7 @@ const validateId = require('../middlewares/validateId')
 // 500 : error
 router.get('/', async ( req,res,next)=>{
     try{
-        const allFoundPosts= await Article.find({}).populate('creator', User);
+        const allFoundPosts= await Article.find({}).sort({createdAt:-1}).populate('creator', User);
         res.status(200).json(allFoundPosts);
     }
     catch (error){
@@ -31,10 +32,13 @@ router.get('/', async ( req,res,next)=>{
 // 201 : Responds with the created document
 // 500 : error
 // requireAuth
-router.post('/', async ( req,res,next)=>{
+router.post('/', upload.single("image"), async ( req,res,next)=>{
     try{
+        if (req.file){
+          req.body.image=req.file.path;
+        }
         let postInput = req.body;
-        postInput.creator=req.session.currentUser;
+        postInput.creator=req.user;
         //For testing
         //postInput.creator='611e73519c589a0e2821295e';
         const createdPost = await Article.create(postInput);
