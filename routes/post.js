@@ -78,13 +78,12 @@ router.get('/:postId', validateId('postId'), async (req, res, next) => {
 // 200 : Responds with the updated document
 // 500 : error
 // requireAuth
-router.patch('/:postId',upload.single("image"), validateId('postId'), async (req, res, next) => {
+router.patch('/:postId', validateId('postId'), upload.single('image'), async (req, res, next) => {
     try {
-
-      if (req.file){
-        req.body.image=req.file.path;
+      if (req.file) {
+        req.body.image = req.file.path; // Add profileImage key to req.body
       }
-      
+      console.log(req.body)
       const foundPost = await Article.findById(req.params.postId);
   
       //check if job exists
