@@ -15,7 +15,6 @@ router.post('/signin', (req, res, next) => {
     } else {
       req.logIn(user, (err) => {
         if (err) next(err);
-        console.log("logged in")
         res.status(200).json(req.user);
       });
     }

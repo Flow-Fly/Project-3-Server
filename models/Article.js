@@ -15,6 +15,9 @@ const articleSchema = new Schema({
         ref: "User" 
     }
     
+},
+{
+    timestamps: true,
 });
 
 const Article = mongoose.model("Article", articleSchema);
