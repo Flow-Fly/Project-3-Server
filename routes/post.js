@@ -78,8 +78,13 @@ router.get('/:postId', validateId('postId'), async (req, res, next) => {
 // 200 : Responds with the updated document
 // 500 : error
 // requireAuth
-router.patch('/:postId', validateId('postId'), async (req, res, next) => {
+router.patch('/:postId',upload.single("image"), validateId('postId'), async (req, res, next) => {
     try {
+
+      if (req.file){
+        req.body.image=req.file.path;
+      }
+      
       const foundPost = await Article.findById(req.params.postId);
   
       //check if job exists
@@ -91,7 +96,7 @@ router.patch('/:postId', validateId('postId'), async (req, res, next) => {
       // if (foundPost.creator.toString() !== req.session.currentUser) {
       //   res.status(403).json({ message: 'Not authorised to edit this job' });
       // }
-  
+      console.log(req.body)
       //update
       const updatedPost = await Article.findByIdAndUpdate(req.params.postId, req.body, {
         new: true,
