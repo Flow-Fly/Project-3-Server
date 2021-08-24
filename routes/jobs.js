@@ -25,8 +25,7 @@ router.get('/', async (req, res, next) => {
 // Responses:
 // 201 : Responds with the created document
 // 500 : error
-// requireAuth
-router.post('/', async (req, res, next) => {
+router.post('/', requireAuth, async (req, res, next) => {
   try {
     const jobInput = req.body;
     //get user info from req.user
@@ -66,32 +65,40 @@ router.get('/:jobId', validateId('jobId'), async (req, res, next) => {
 // 403 : Creator id doesn't match the session user id
 // 200 : Responds with the updated document
 // 500 : error
-// requireAuth
-router.patch('/:jobId', validateId('jobId'), async (req, res, next) => {
-  try {
-    const foundJob = await Job.findById(req.params.jobId);
+router.patch(
+  '/:jobId',
+  requireAuth,
+  validateId('jobId'),
+  async (req, res, next) => {
+    try {
+      const foundJob = await Job.findById(req.params.jobId);
 
-    //check if job exists
-    if (!foundJob) {
-      return res.status(404).json({ message: 'Job not found' });
+      //check if job exists
+      if (!foundJob) {
+        return res.status(404).json({ message: 'Job not found' });
+      }
+
+      //check if authorised to edit
+      if (foundJob.creator.toString() !== req.user._id) {
+        res.status(403).json({ message: 'Not authorised to edit this job' });
+      }
+
+      //update
+      const updatedJob = await Job.findByIdAndUpdate(
+        req.params.jobId,
+        req.body,
+        {
+          new: true,
+        }
+      ).populate('creator');
+
+      res.status(200).json(updatedJob);
+    } catch (error) {
+      res.status(500).json(error);
+      next(error);
     }
-
-    //check if authorised to edit
-    // if (foundJob.creator.toString() !== req.user) {
-    //   res.status(403).json({ message: 'Not authorised to edit this job' });
-    // }
-
-    //update
-    const updatedJob = await Job.findByIdAndUpdate(req.params.jobId, req.body, {
-      new: true,
-    }).populate('creator');
-
-    res.status(200).json(updatedJob);
-  } catch (error) {
-    res.status(500).json(error);
-    next(error);
   }
-});
+);
 
 // Delete one job
 // 400 : Incorrect mongoose id
@@ -99,33 +106,37 @@ router.patch('/:jobId', validateId('jobId'), async (req, res, next) => {
 // 403 : Creator id doesn't match the session user id
 // 204 : Successful
 // 500 : error
-// requireAuth
-router.delete('/:jobId', validateId('jobId'), async (req, res, next) => {
-  try {
-    console.log(req.user);
+router.delete(
+  '/:jobId',
+  requireAuth,
+  validateId('jobId'),
+  async (req, res, next) => {
+    try {
+      console.log(req.user);
 
-    const foundJob = await Job.findById(req.params.jobId);
+      const foundJob = await Job.findById(req.params.jobId);
 
-    //check if job exists
-    if (!foundJob) {
-      return res.status(404).json({ message: 'Job not found' });
+      //check if job exists
+      if (!foundJob) {
+        return res.status(404).json({ message: 'Job not found' });
+      }
+
+      //   //check if authorised to delete
+      if (foundJob.creator.toString() !== req.user._id) {
+        return res
+          .status(403)
+          .json({ message: 'Not authorised to edit this job' });
+      }
+
+      //delete
+      await Job.findByIdAndDelete(req.params.jobId);
+
+      res.status(204).json({ message: 'Successfully deleted.' });
+    } catch (error) {
+      res.status(500).json(error);
+      next(error);
     }
-
-    //   //check if authorised to delete
-    // if (foundJob.creator.toString() !== req.user) {
-    //   return res
-    //     .status(403)
-    //     .json({ message: 'Not authorised to edit this job' });
-    // }
-
-    //delete
-    await Job.findByIdAndDelete(req.params.jobId);
-
-    res.status(204).json({ message: 'Successfully deleted.' });
-  } catch (error) {
-    res.status(500).json(error);
-    next(error);
   }
-});
+);
 
 module.exports = router;
