@@ -10,6 +10,7 @@ const io = require("socket.io")(process.env.SOCKET_PORT, {
   cors: {
     origin: process.env.FRONTEND_URL,
   },
+ 
 });
 
 const socketHandler = require('./socket/socketHandler')
