@@ -17,13 +17,13 @@ router.get("/me", requireAuth, (req, res, next) => {
 //     .catch(next);
 // });
 
-// router.get("/:userId", requireAuth, (req, res, next) => {
-//   User.findById(req.params.userId).select('-password')
-//     .then((user) => {
-//       res.status(200).json(user);
-//     })
-//     .catch(next);
-// });
+router.get("/:userId", requireAuth, (req, res, next) => {
+  User.findById(req.params.userId).select('-password')
+    .then((user) => {
+      res.status(200).json(user);
+    })
+    .catch(next);
+});
 
 //Get a user from his email 
 router.get("/user", requireAuth, (req, res, next) => {
