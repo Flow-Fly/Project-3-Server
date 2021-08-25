@@ -101,7 +101,7 @@ socket.on("send", sendOrder);
 socket.on("disconnected", disconnectedOrder)
 
   socket.on("disconnect", (reason) => {
-    console.log('Socket has disconnected')
+    console.log('Socket has disconnected', reason)
     disconnectedOrder()
   });
 }
