@@ -33,6 +33,16 @@ const userSchema = new Schema({
   },
   googleId: String,
   githubId: String,
+  favouritePosts:[{
+    type: Schema.Types.ObjectId,
+    ref: "Article",
+    unique:true,
+  }],
+  favouriteJobs:[{
+    type: Schema.Types.ObjectId,
+    ref: "Job",
+    unique:true,
+  }]
 });
 
 const User = mongoose.model('User', userSchema);

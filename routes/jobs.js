@@ -79,7 +79,7 @@ router.patch(
       }
 
       //check if authorised to edit
-      if (foundJob.creator.toString() !== req.user._id) {
+      if (foundJob.creator.toString() !== req.user._id.toString()) {
         res.status(403).json({ message: 'Not authorised to edit this job' });
       }
 
@@ -122,7 +122,7 @@ router.delete(
       }
 
       //   //check if authorised to delete
-      if (foundJob.creator.toString() !== req.user._id) {
+      if (foundJob.creator.toString() !== req.user._id.toString()) {
         return res
           .status(403)
           .json({ message: 'Not authorised to edit this job' });
