@@ -1,8 +1,6 @@
 const express = require("express");
 const requireAuth = require("../middlewares/requireAuth");
 const User = require("../models/User");
-const Article = require("../models/Article")
-const Job = require("../models/Job")
 const router = express.Router();
 const upload = require("../config/cloudinaryConfig")
 

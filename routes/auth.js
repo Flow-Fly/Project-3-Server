@@ -19,32 +19,6 @@ router.post('/signin', (req, res, next) => {
       });
     }
   })(req, res, next);
-  // const { email, password } = req.body;
-  // if (!email || !password) {
-  //   return res.status(400).json({ message: "Please complete all fields"})
-  // }
-  // User.findOne({ email })
-  //   .then((userDocument) => {
-  //     if (!userDocument) {
-  //       return res.status(400).json({ message: "Invalid credentials" });
-  //     }
-
-  //     const isValidPassword = bcrypt.compareSync(
-  //       password,
-  //       userDocument.password
-  //     );
-  //     if (!isValidPassword) {
-  //       return res.status(400).json({ message: "Invalid credentials" });
-  //     }
-
-  //     req.session.currentUser = {
-  //       // role: "userDocument.role",  // if you need to handle roles
-  //       _id: userDocument._id,
-  //     };
-
-  //     res.redirect("/api/users/me");
-  //   })
-  //   .catch(next);
 });
 
 router.post('/signup', (req, res, next) => {
