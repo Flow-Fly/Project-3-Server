@@ -36,12 +36,10 @@ const userSchema = new Schema({
   favouritePosts:[{
     type: Schema.Types.ObjectId,
     ref: "Article",
-    unique:true,
   }],
   favouriteJobs:[{
     type: Schema.Types.ObjectId,
     ref: "Job",
-    unique:true,
   }]
 });
 

@@ -21,6 +21,7 @@ router.patch('/me', requireAuth, upload.single("profileImg"), async (req, res, n
 })
 
 
+
 //get all users email
 router.get("/emails", requireAuth, (req, res, next) => {
   User.find().select('email')
@@ -42,12 +43,13 @@ router.get("/user/email", requireAuth, (req, res, next) => {
 
   //Regarding Favourite Lists
 
-  router.get('/favourites/:ID', async (req, res, next) => {
-    let userId =req.params.ID;
-
-    const user = await User.findById(userId);
-    await user.populate(['favouritePosts', 'favouriteJobs']);
-    res.status(201).json(user)
+  router.get('/favourites/all',requireAuth, async (req, res, next) => {
+    let userId =req.user._id;
+    const user = await User.findById(userId).populate(['favouritePosts','favouriteJobs']);
+    let response={};
+    response.favouritePosts = user.favouritePosts;
+    response.favouriteJobs = user.favouriteJobs;
+    res.status(201).json(response)
   })
 
 
@@ -77,10 +79,10 @@ router.get("/user/email", requireAuth, (req, res, next) => {
 
   router.get("/:userId", requireAuth, (req, res, next) => {
     User.findById(req.params.userId).select('-password')
-    .then((user) => {
-      res.status(200).json(user);
-    })
-    .catch(next);
+      .then((user) => {
+        res.status(200).json(user);
+      })
+      .catch(next);
   });
 
 module.exports = router;
