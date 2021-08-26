@@ -52,7 +52,6 @@ router.get("/user/email", requireAuth, (req, res, next) => {
     res.status(201).json(response)
   })
 
-
   router.patch('/addFavouritePost/:postId', requireAuth, async (req, res, next) => {
     let postId =req.params.postId;
     const user = await User.findByIdAndUpdate(req.user._id, {$push:{"favouritePosts":postId}}, {new: true})
