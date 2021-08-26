@@ -1,42 +1,26 @@
-require('dotenv').config();
-require('./config/dbConnection');
-
+require("dotenv").config();
+require("./config/dbConnection");
 
 /*******************************************/
 /*************** SOCKET IO *****************/
 /*******************************************/
 
-const io = require("socket.io")(process.env.SOCKET_PORT, {
-  cors: {
-    origin: process.env.FRONTEND_URL,
-  },
- 
-});
-
-const socketHandler = require('./socket/socketHandler')
-
-const onConnection = socket => {
-  socketHandler(io, socket)
-}
-
-io.on("connection", onConnection);
-
 /*******************************************/
 /***************** EXPRESS *****************/
 /*******************************************/
 
-const express = require('express');
-const path = require('path');
-const logger = require('morgan');
-const session = require('express-session');
-const MongoStore = require('connect-mongo');
-const passport = require('passport')
-const cors = require('cors');
+const express = require("express");
+const path = require("path");
+const logger = require("morgan");
+const session = require("express-session");
+const MongoStore = require("connect-mongo");
+const passport = require("passport");
+const cors = require("cors");
 
 /*************** PASSPORT *****************/
-require('./config/passport/localPassportConfig')()
-require('./config/passport/googlePassportConfig')()
-require('./config/passport/githubPassportConfig')()
+require("./config/passport/localPassportConfig")();
+require("./config/passport/googlePassportConfig")();
+require("./config/passport/githubPassportConfig")();
 
 const app = express();
 /**
@@ -45,11 +29,11 @@ const app = express();
 const corsOptions = { origin: process.env.FRONTEND_URL, credentials: true };
 
 app.use(cors(corsOptions));
-app.use(logger('dev')); // This logs HTTP reponses in the console.
+app.use(logger("dev")); // This logs HTTP reponses in the console.
 app.use(express.json()); // Access data sent as json @req.body
 app.use(express.urlencoded({ extended: false })); // Access data sent as application/x-www-form-urlencoded @req.body
-				   
-app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(express.static(path.join(__dirname, "public/build")));
 
 app.use(
   session({
@@ -62,8 +46,8 @@ app.use(
     saveUninitialized: true,
   })
 );
-app.use(passport.initialize())
-app.use(passport.session())
+app.use(passport.initialize());
+app.use(passport.session());
 
 // // Test to see if user is logged In before getting into any router.
 // app.use(function (req, res, next) {
@@ -75,33 +59,40 @@ app.use(passport.session())
  * Routes
  */
 
-app.use('/api/auth', require('./routes/auth'));
-app.use('/api/users', require('./routes/users'));
-app.use('/api/rooms', require('./routes/messenger/rooms'));
-app.use('/api/messages', require('./routes/messenger/messages'));
-app.use('/jobs', require('./routes/jobs'));
-app.use('/posts', require('./routes/post'));
+app.use("/api/auth", require("./routes/auth"));
+app.use("/api/users", require("./routes/users"));
+app.use("/api/rooms", require("./routes/messenger/rooms"));
+app.use("/api/messages", require("./routes/messenger/messages"));
+app.use("/jobs", require("./routes/jobs"));
+app.use("/posts", require("./routes/post"));
 
 // 404 Middleware
-app.use((req, res, next) => {
-  const error = new Error('Ressource not found.');
+app.use("/api/*", (req, res, next) => {
+  const error = new Error("Ressource not found.");
   error.status = 404;
   next(error);
 });
+
+if (process.env.NODE_ENV === "production") {
+  app.use("*", (req, res, next) => {
+    // If no routes match, send them the React HTML.
+    res.sendFile(path.join(__dirname, "public/build/index.html"));
+  });
+}
 
 // Error handler middleware
 // If you pass an argument to your next function in any of your routes or middlewares
 // You will end up in this middleware
 // next("toto") makes you end up here
 app.use((err, req, res, next) => {
-  if (process.env.NODE_ENV !== 'production') {
+  if (process.env.NODE_ENV !== "production") {
     console.error(err);
   }
-  console.log('An error occured');
+  console.log("An error occured");
   res.status(err.status || 500);
   if (!res.headersSent) {
     // A limited amount of information sent in production
-    if (process.env.NODE_ENV === 'production') {
+    if (process.env.NODE_ENV === "production") {
       res.json(err);
     } else {
       res.json(
@@ -110,5 +101,22 @@ app.use((err, req, res, next) => {
     }
   }
 });
+
+const server = app.listen(process.env.PORT);
+
+const io = require("socket.io")(server, {
+  cors: {
+    origin: process.env.FRONTEND_URL,
+  },
+});
+
+const socketHandler = require("./socket/socketHandler");
+
+const onConnection = (socket) => {
+  console.log("here");
+  socketHandler(io, socket);
+};
+
+io.on("connection", onConnection);
 
 module.exports = app;
