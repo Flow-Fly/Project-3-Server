@@ -102,7 +102,9 @@ app.use((err, req, res, next) => {
   }
 });
 
-const server = app.listen(process.env.PORT);
+const server = app.listen(process.env.PORT, () => {
+  console.log("i'm listening too !");
+});
 
 const io = require("socket.io")(server, {
   cors: {
