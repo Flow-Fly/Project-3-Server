@@ -66,14 +66,14 @@ router.get("/user/email", requireAuth, (req, res, next) => {
   })
   //http://localhost:4000/api/users/deleteFavouritPost/61264af2cdd5a60c2bdfe0e4/6125fc08c1de1907a2a2b4ca
   router.patch('/addFavouriteJob/:jobId', requireAuth, async (req, res, next) => {
-    let postId =req.params.postId;
-    const user = await User.findByIdAndUpdate(req.user._id, {$push:{"favouriteJobs":postId}}, {new: true})
+    let jobId =req.params.jobId;
+    const user = await User.findByIdAndUpdate(req.user._id, {$push:{"favouriteJobs":jobId}}, {new: true})
     res.status(201).json(user)
   })
 
   router.patch('/deleteFavouriteJob/:jobId',requireAuth, async (req, res, next) => {
-    let postId =req.params.postId;
-    const user = await User.findByIdAndUpdate(req.user._id, {$pull:{"favouriteJobs":postId}}, {new: true})
+    let jobId =req.params.jobId;
+    const user = await User.findByIdAndUpdate(req.user._id, {$pull:{"favouriteJobs":jobId}}, {new: true})
     res.status(201).json(user)
   })
 
