@@ -1,7 +1,6 @@
 const path = require('path');
 require('dotenv').config({ path: path.join(__dirname, '../.env') });
 require('../config/dbConnection');
-// const mongoose = require('mongoose');
 const Job = require('../models/Job');
 const User = require('../models/User');
 
@@ -68,7 +67,7 @@ async function seedJob() {
   try {
     await Job.collection
       .drop()
-      .catch((error) => console.log('No collection to drop, proceeding...'));
+      .catch((error) => console.error('No collection to drop, proceeding...'));
     console.log('Job collection dropped');
 
     const usersInDB = await User.find();
@@ -87,24 +86,6 @@ async function seedJob() {
     console.log(error);
     process.exit();
   }
-
-  //   await mongoose.connect(process.env.MONGODB_URI, {
-  //     useNewUrlParser: true,
-  //     useCreateIndex: true,
-  //     useUnifiedTopology: true,
-  //   });
-
-  //   let jobs = await Job.deleteMany();
-  //   console.log(`Deleted ${jobs.length} Jobs`);
-
-  //   jobs = await Job.create(newJobs);
-  //   console.log('Jobs created: ', jobs);
-  //   mongoose.connection.close();
-  //   console.log('DB connection closed.');
-  // } catch (error) {
-  //   console.log(error);
-  //   // process.exit();
-  // }
 }
 
 seedJob();

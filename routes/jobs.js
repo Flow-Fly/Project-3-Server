@@ -5,6 +5,13 @@ const User = require('../models/User');
 const requireAuth = require('../middlewares/requireAuth');
 const validateId = require('../middlewares/validateId');
 
+// Route	VERB	Request body	Action
+// /jobs	GET	   none	    Returns all jobs
+// /jobs	 POST	JSON	Creates a new job
+// /jobs/:jobId	  PATCH	JSON	Updates a job
+// /jobs/:jobId	  GET	none	Returns a job
+// /jobs/:jobId	  DELETE	none	Deletes a specific job
+
 ////prefixed ---> app.use('/jobs', require('./routes/jobs'));
 // Read all the jobs in db
 // 200 : The list of items
