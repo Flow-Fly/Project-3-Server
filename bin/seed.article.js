@@ -29,7 +29,7 @@ const newArticles = [
         perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis`,
     type: 'UI/UX',
     link: 'http://fancy-design-and-thought.io',
-    image: 'https://media.maxiburo.fr/j2svp/zoomhd/71/38/08/713808.jpg',
+    image: 'https://miro.medium.com/fit/c/200/134/0*eVgKOJfWF58hnlW5',
   },
   {
     title: 'Marvellous representation of weather report',

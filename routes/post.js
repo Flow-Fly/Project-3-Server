@@ -127,7 +127,7 @@ router.patch(
 // requireAuth
 router.delete('/:postId', validateId('postId'), async (req, res, next) => {
   try {
-    // console.log(req.session);
+     console.log(req.params.postId);
     const foundPost = await Article.findById(req.params.postId);
 
     //check if post exists
@@ -136,7 +136,7 @@ router.delete('/:postId', validateId('postId'), async (req, res, next) => {
     }
 
     //   //check if authorised to delete
-    if (foundJob.creator.toString() !== req.user._id.toString()) {
+    if (foundPost.creator.toString() !== req.user._id.toString()) {
       return res
         .status(403)
         .json({ message: 'Not authorised to edit this job' });
