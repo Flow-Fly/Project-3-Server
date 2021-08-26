@@ -12,6 +12,10 @@ router.patch('/me', requireAuth, upload.single("profileImg"), async (req, res, n
   if (req.file) {
     req.body.profileImg = req.file.path; // Add profileImage key to req.body
   }
+  //We don't want to update favPosts/jobs through the update profile. Plus it crash the server.
+  delete req.body.favouritePosts
+  delete req.body.favouriteJobs
+  
   const user = await User.findByIdAndUpdate(req.user._id, req.body, {new: true})
   res.status(201).json(user)
 })
