@@ -103,7 +103,7 @@ app.use((err, req, res, next) => {
 });
 
 const server = app.listen(process.env.PORT, () => {
-  console.log("i'm listening too !");
+  console.log("Socket is listening app");
 });
 
 const io = require("socket.io")(server, {
@@ -115,7 +115,6 @@ const io = require("socket.io")(server, {
 const socketHandler = require("./socket/socketHandler");
 
 const onConnection = (socket) => {
-  console.log("here");
   socketHandler(io, socket);
 };
 
