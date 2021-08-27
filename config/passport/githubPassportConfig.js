@@ -17,19 +17,19 @@ module.exports = () => {
             done(null, user);
             return;
           }
-          
-  const email = profile.emails[0]?.value || 'no email'
-  const firstName = profile.username
-  const profileImg = profile.photos[0]?.value
-  const githubId = profile.id
-    
+
+          const email = profile.emails[0]?.value || 'no email';
+          const firstName = profile.username;
+          const profileImg = profile.photos[0]?.value;
+          const githubId = profile.id;
+
           await User.create({
             email,
             firstName,
             profileImg,
-            githubId
-          })
-        
+            githubId,
+          });
+
           done(null, user);
         } catch (error) {
           done(error);
