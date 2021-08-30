@@ -16,7 +16,7 @@ const validateId = require('../middlewares/validateId');
 // Read all the jobs in db
 // 200 : The list of items
 // 500 : error
-router.get('/', async (req, res, next) => {
+router.get('/', requireAuth, async (req, res, next) => {
   try {
     // when populate, need to put ref as the second parameter
     const allFoundJobs = await Job.find({})
@@ -51,7 +51,7 @@ router.post('/', requireAuth, async (req, res, next) => {
 // 404 : No item found
 // 200 : Responds with the updated document
 // 500 : error
-router.get('/:jobId', validateId('jobId'), async (req, res, next) => {
+router.get('/:jobId', validateId('jobId'), requireAuth, async (req, res, next) => {
   try {
     const foundJob = await Job.findById(req.params.jobId).populate('creator');
     if (!foundJob) {
