@@ -51,7 +51,7 @@ router.get('/logout', (req, res, next) => {
   res.sendStatus(204);
 });
 
-// GOOGLE PASSPORT LOGIN
+// GOOGLE PASSPORT LOGIN/SIGNUP
 router.get(
   '/google',
   passport.authenticate('google', {
@@ -63,7 +63,7 @@ router.get('/google/callback', passport.authenticate('google'), (req, res) => {
   res.redirect(process.env.FRONTEND_URL + '/');
 });
 
-// GITHUB PASSPORT LOGIN
+// GITHUB PASSPORT LOGIN/SIGNUP
 router.get(
   '/github',
   passport.authenticate('github', {
