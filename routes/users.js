@@ -22,7 +22,7 @@ router.patch(
     if (req.body.email) {
       try {
         const existAlready = await User.findOne({ email: req.body.email });
-        if (existAlready.length === 0) {
+        if (existAlready.length !== 0) {
           const user = await User.findByIdAndUpdate(req.user._id, req.body, {
             new: true,
           });
